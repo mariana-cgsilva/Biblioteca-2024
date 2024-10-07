@@ -15,208 +15,219 @@ struct Livro
 
 void CadastrarLivro(struct Livro veclivro[], int &qtd)
 {
-    if (qtd>100)
+    if (qtd >= 100)
     {
-        cout<<"Quantidade Excedida!!!";
+        cout << "Quantidade Excedida!!!\n";
+        return;
     }
-   
-    else
+
+    cout << "Digite o titulo do livro: ";
+    cin.ignore();
+    cin.getline(veclivro[qtd].titulo, 100);
+    cout << "Digite o autor do livro: ";
+    cin.getline(veclivro[qtd].autor, 100);
+    cout << "Digite o numero de paginas: ";
+    cin >> veclivro[qtd].numpaginas;
+    cout << "Digite o ano de publicação: ";
+    cin >> veclivro[qtd].anopublicacao;
+    cout << "Digite o ID do livro: ";
+    cin >> veclivro[qtd].idlivro;
+    cout << "Digite a quantidade do livro: ";
+    cin >> veclivro[qtd].quantidade;
+
+    for (int i = 0; i < 10; i++)
     {
-        cout<<"Digite o titulo do livro: ";
-        cin.ignore();
-        cin.getline(veclivro[qtd].titulo,100);
-        cout<<"Digite o autor do livro: ";
-        cin.getline(veclivro[qtd].autor,100);
-        cout<<"Digite o numero de paginas: ";
-        cin>>veclivro[qtd].numpaginas;
-        cout<<"Digite o ano de publicação: ";
-        cin>>veclivro[qtd].anopublicacao;
-        cout<<"Digite o ID do livro: ";
-        cin>>veclivro[qtd].idlivro;
-        cout<<"Digite a quantidade do livro: ";
-        cin>>veclivro[qtd].quantidade;
-       
-        qtd++;    
+        strcpy(veclivro[qtd].nomeexemplares[i], "");
     }
+
+    qtd++;
 }
 
-void PrintLivros(struct Livro veclivro[], int i){
-   
-    cout<<"Titulo do livro: "<<veclivro[i].titulo <<endl;
-    cout<<"Autor: "<<veclivro[i].autor <<endl;
-    cout<<"Número de páginas: "<<veclivro[i].numpaginas <<endl;
-    cout<<"Ano de publicação: "<<veclivro[i].anopublicacao <<endl;
-    cout<<"ID do livro: "<<veclivro[i].idlivro <<endl;
-    cout<<"Quantidade do livro: "<<veclivro[i].quantidade <<endl;
+void PrintLivros(struct Livro veclivro[], int qtd)
+{
+    for (int i = 0; i < qtd; i++)
+    {
+        cout << "Livro " << i + 1 << ":\n";
+        cout << "Titulo do livro: " << veclivro[i].titulo << endl;
+        cout << "Autor: " << veclivro[i].autor << endl;
+        cout << "Número de páginas: " << veclivro[i].numpaginas << endl;
+        cout << "Ano de publicação: " << veclivro[i].anopublicacao << endl;
+        cout << "ID do livro: " << veclivro[i].idlivro << endl;
+        cout << "Quantidade do livro: " << veclivro[i].quantidade << endl;
+        cout << "-------------------------\n";
+    }
 }
 
 void ConsultarLivro(struct Livro veclivro[], int qtd)
 {
     int opcao;
-    cout<<"Consultar Livros:"<<endl;
-    cout<<"1. Listar todos os livros cadastrados\n";
-    cout<<"2. Buscar livro usando o ID\n";
-    cout<<"3. Buscar livro por titulo\n";
-    cout<<"Opção: ";
-    cin>>opcao;
-   
-    if (opcao==1)
+    cout << "Consultar Livros:\n";
+    cout << "1. Listar todos os livros cadastrados\n";
+    cout << "2. Buscar livro usando o ID\n";
+    cout << "3. Buscar livro por titulo\n";
+    cout << "Opção: ";
+    cin >> opcao;
+
+    if (opcao == 1)
     {
-        PrintLivros(veclivro,qtd);
+        PrintLivros(veclivro, qtd);
     }
-   
-    else if (opcao==2)
+    else if (opcao == 2)
     {
         int idbuscar;
-        cout<<"Digite o ID do livro que deseja buscar: ";
-        cin>>idbuscar;
-        bool encontrado=false;
-       
-        for (int i=0; i<qtd; i++)
+        cout << "Digite o ID do livro que deseja buscar: ";
+        cin >> idbuscar;
+        bool encontrado = false;
+
+        for (int i = 0; i < qtd; i++)
         {
-            if (idbuscar==veclivro[i].idlivro)
-            {  
-                encontrado=true;
-                cout<<"Livro encontrado!"<<endl;
-                cout<<"Titulo do livro: "<<veclivro[i].titulo <<endl;
-                cout<<"Autor: "<<veclivro[i].autor <<endl;
-                cout<<"Número de páginas: "<<veclivro[i].numpaginas <<endl;
-                cout<<"Ano de publicação: "<<veclivro[i].anopublicacao <<endl;
-                cout<<"ID do livro: "<<veclivro[i].idlivro <<endl;
-                cout<<"Quantidade do livro: "<<veclivro[i].quantidade <<endl;
+            if (idbuscar == veclivro[i].idlivro)
+            {
+                encontrado = true;
+                PrintLivros(veclivro, i);
+                break;
             }
         }
-           
-        if(!encontrado)
-        {
-            cout<<"Esse ID não foi encontrado!!!";
-        }
 
+        if (!encontrado)
+        {
+            cout << "Esse ID não foi encontrado!!!\n";
+        }
     }
-   
-    else if (opcao==3)
+    else if (opcao == 3)
     {
         char titulobuscar[100];
-        cout<<"Digite o titulo do livro que deseja buscar: ";
+        cout << "Digite o titulo do livro que deseja buscar: ";
         cin.ignore();
-        cin.getline(titulobuscar,100);
-        
-        for (int i=0; i<qtd; i++)
+        cin.getline(titulobuscar, 100);
+
+        bool encontrado = false;
+        for (int i = 0; i < qtd; i++)
         {
-            if (strcmp(veclivro[i].titulo, titulobuscar)==0)
+            if (strcmp(veclivro[i].titulo, titulobuscar) == 0)
             {
-                cout<<"Livro encontrado!"<<endl;
-                cout<<"Titulo do livro: "<<veclivro[i].titulo <<endl;
-                cout<<"Autor: "<<veclivro[i].autor <<endl;
-                cout<<"Número de páginas: "<<veclivro[i].numpaginas <<endl;
-                cout<<"Ano de publicação: "<<veclivro[i].anopublicacao <<endl;
-                cout<<"ID do livro: "<<veclivro[i].idlivro <<endl;
-                cout<<"Quantidade do livro: "<<veclivro[i].quantidade <<endl;               
+                encontrado = true;
+                PrintLivros(veclivro, i);
+                break;
             }
-           
-            else
-            {
-                cout<<"Esse titulo não foi encontrado!!!";
-            }
+        }
+
+        if (!encontrado)
+        {
+            cout << "Esse título não foi encontrado!!!\n";
         }
     }
 }
 
-void EmprestimoLivro(struct Livro veclivro[], int &qtd)
-{
-    for (int i=0; i<qtd; i++)
-    {
-       if
-    }
-}
-
-void DevolucaoLivro(struct Livro veclivro[], int &qtd)
+void EmprestimoLivro(struct Livro veclivro[], int qtd)
 {
     char nome[100];
-    cout<<"Digite seu nome: ";
+    char titulobuscar[100];
+
+    cout << "Digite seu nome: ";
     cin.ignore();
-    cin.getline(nome,100);
-    
-    for (int i=0; i<10; i++) 
+    cin.getline(nome, 100);
+
+    cout << "Digite o título do livro que deseja emprestar: ";
+    cin.getline(titulobuscar, 100);
+
+    for (int i = 0; i < qtd; i++)
     {
-        if (strcmp(veclivro[i].nomeexemplares[i], nome) == 0) 
+        if (strcmp(veclivro[i].titulo, titulobuscar) == 0)
         {
-            for (int j=i; j<9; j++) 
-            { 
-                strcpy(veclivro[i].nomeexemplares[j], veclivro[i].nomeexemplares[j + 1]);
-            }
-            veclivro[i].nomeexemplares[9][0] = '\0';
-            
-            char titulodevol[100];
-            cout<<"Digite o titulo do livro que quer devolver: ";
-            cin.ignore();
-            cin.getline(titulodevol,100);
-            
-            for(int i=0; i<qtd; i++)
+            if (veclivro[i].quantidade > 0)
             {
-                if(strcmp(veclivro[i].titulo, titulodevol) == 0)
-                {
-                    veclivro[i].quantidade += 1;
-                    cout<<veclivro[i].titulo<<" devolvido com sucesso!\n";
-                }
-                else
-                {
-                    cout<<"Título não encontrado!!!\n";
-                    break;
-                }
+                strcpy(veclivro[i].nomeexemplares[10 - veclivro[i].quantidade], nome);
+                veclivro[i].quantidade--;
+                cout << "Livro '" << veclivro[i].titulo << "' emprestado com sucesso para " << nome << endl;
             }
-            
-        } 
-        else
-        {
-            cout<<"Nome não encontrado!!!\n";
-            break;
+            else
+            {
+                cout << "Nenhum exemplar disponível.";
+            }
+            return;
         }
     }
+
+    cout << "Livro não encontrado.";
+}
+
+void DevolucaoLivro(struct Livro veclivro[], int qtd)
+{
+    char nome[100];
+    char titulodevol[100];
+
+    cout << "Digite seu nome: ";
+    cin.ignore();
+    cin.getline(nome, 100);
+
+    cout << "Digite o título do livro que deseja devolver: ";
+    cin.getline(titulodevol, 100);
+
+    for (int i = 0; i < qtd; i++)
+    {
+        if (strcmp(veclivro[i].titulo, titulodevol) == 0)
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                if (strcmp(veclivro[i].nomeexemplares[j], nome) == 0)
+                {
+                    strcpy(veclivro[i].nomeexemplares[j], "");
+                    veclivro[i].quantidade++;
+                    cout << "Livro '" << veclivro[i].titulo << "' devolvido com sucesso.\n";
+                    return;
+                }
+            }
+            cout << "Erro: Seu nome não consta na lista de empréstimo para o livro '" << veclivro[i].titulo << "'.\n";
+            return;
+        }
+    }
+
+    cout << "Livro não encontrado.\n";
 }
 
 int main()
 {
-    int maxlivro=100;
+    int maxlivro = 100;
     struct Livro veclivro[maxlivro];
-    int qtd=0;
-   
-    int opcao=0;
-   
-    while(opcao != 6)
+    int qtd = 0;
+
+    int opcao = 0;
+
+    while (opcao != 6)
     {
-        cout<<"---------------------------"<<endl;
-        cout<<"1. Cadastrar Livro"<<endl;
-        cout<<"2. Consultar Livro"<<endl;
-        cout<<"3. Emprestimo de Livro"<<endl;
-        cout<<"4. Devolução de Livro"<<endl;
-        cout<<"5. Remocao de Livro"<<endl;
-        cout<<"6. Sair"<<endl;
-        cout<<"---------------------------"<<endl;
-        cout<<"Digite uma opcao: ";
-        cin>>opcao;
-        switch(opcao){
-            case 1:
-                CadastrarLivro(veclivro,qtd);
-                break;
-            case 2:
-                ConsultarLivro(veclivro,qtd);
-                break;
-            case 3:
-                EmprestimoLivro(veclivro,qtd);
-                break;
-            case 4:
-                DevolucaoLivro(veclivro,qtd);
-                break;
-            case 5:
-                break;
-            case 6:
-                cout<<"Programa finalizado.";
-                break;
-            default:
-                cout<<"Número inválido.";
-                break;
+        cout << "---------------------------\n";
+        cout << "1. Cadastrar Livro\n";
+        cout << "2. Consultar Livro\n";
+        cout << "3. Empréstimo de Livro\n";
+        cout << "4. Devolução de Livro\n";
+        cout << "5. Sair\n";
+        cout << "---------------------------\n";
+        cout << "Digite uma opção: ";
+        cin >> opcao;
+
+        switch (opcao)
+        {
+        case 1:
+            CadastrarLivro(veclivro, qtd);
+            break;
+        case 2:
+            ConsultarLivro(veclivro, qtd);
+            break;
+        case 3:
+            EmprestimoLivro(veclivro, qtd);
+            break;
+        case 4:
+            DevolucaoLivro(veclivro, qtd);
+            break;
+        case 5:
+            cout << "Programa finalizado.\n";
+            break;
+        default:
+            cout << "Número inválido.\n";
+            break;
         }
     }
+
     return 0;
 }
