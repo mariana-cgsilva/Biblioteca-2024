@@ -10,7 +10,8 @@ struct Livro
     int anopublicacao;
     int idlivro;
     int quantidade;
-    char nomeexemplares[10][100];
+    int emprestimo;
+    char nomeexemplares[100][100];
 };
 
 void CadastrarLivro(struct Livro veclivro[], int &qtd)
@@ -34,28 +35,34 @@ void CadastrarLivro(struct Livro veclivro[], int &qtd)
     cin >> veclivro[qtd].idlivro;
     cout << "Digite a quantidade do livro: ";
     cin >> veclivro[qtd].quantidade;
-
-    for (int i = 0; i < 10; i++)
-    {
-        strcpy(veclivro[qtd].nomeexemplares[i], "");
-    }
-
+   
+    veclivro[qtd].emprestimo=0;
     qtd++;
 }
 
-void PrintLivros(struct Livro veclivro[], int qtd)
+void PrintLivros(struct Livro veclivro[], int i)
 {
-    for (int i = 0; i < qtd; i++)
+    cout << "Livro " << i + 1 << ":\n";
+    cout << "Titulo do livro: " << veclivro[i].titulo << endl;
+    cout << "Autor: " << veclivro[i].autor << endl;
+    cout << "Número de páginas: " << veclivro[i].numpaginas << endl;
+    cout << "Ano de publicação: " << veclivro[i].anopublicacao << endl;
+    cout << "ID do livro: " << veclivro[i].idlivro << endl;
+    cout << "Quantidade do livro: " << veclivro[i].quantidade << endl;
+    if(veclivro[i].emprestimo>0)
     {
-        cout << "Livro " << i + 1 << ":\n";
-        cout << "Titulo do livro: " << veclivro[i].titulo << endl;
-        cout << "Autor: " << veclivro[i].autor << endl;
-        cout << "Número de páginas: " << veclivro[i].numpaginas << endl;
-        cout << "Ano de publicação: " << veclivro[i].anopublicacao << endl;
-        cout << "ID do livro: " << veclivro[i].idlivro << endl;
-        cout << "Quantidade do livro: " << veclivro[i].quantidade << endl;
-        cout << "-------------------------\n";
+        cout<<"Emprestado a: ";
+        for(int j=0; j<veclivro[i].emprestimo; j++)
+        {
+            cout<<veclivro[i].nomeexemplares[j];
+            if(veclivro[i].emprestimo-1>j)
+            {
+                cout<<", ";
+            }
+        }
     }
+        cout << endl;
+        cout << "-------------------------\n";
 }
 
 void ConsultarLivro(struct Livro veclivro[], int qtd)
@@ -70,7 +77,10 @@ void ConsultarLivro(struct Livro veclivro[], int qtd)
 
     if (opcao == 1)
     {
-        PrintLivros(veclivro, qtd);
+        for (int i = 0; i < qtd; i++)
+        {
+            PrintLivros(veclivro, i); // Chama PrintLivros para cada livro
+        }
     }
     else if (opcao == 2)
     {
@@ -122,24 +132,25 @@ void ConsultarLivro(struct Livro veclivro[], int qtd)
 void EmprestimoLivro(struct Livro veclivro[], int qtd)
 {
     char nome[100];
-    char titulobuscar[100];
+    int idbuscar;
 
     cout << "Digite seu nome: ";
     cin.ignore();
     cin.getline(nome, 100);
 
-    cout << "Digite o título do livro que deseja emprestar: ";
-    cin.getline(titulobuscar, 100);
+    cout << "Digite o id do livro que deseja emprestar: ";
+    cin >> idbuscar;
 
     for (int i = 0; i < qtd; i++)
     {
-        if (strcmp(veclivro[i].titulo, titulobuscar) == 0)
+        if (veclivro[i].idlivro == idbuscar)
         {
             if (veclivro[i].quantidade > 0)
             {
-                strcpy(veclivro[i].nomeexemplares[10 - veclivro[i].quantidade], nome);
+                strcpy(veclivro[i].nomeexemplares[veclivro[i].emprestimo], nome);
                 veclivro[i].quantidade--;
-                cout << "Livro '" << veclivro[i].titulo << "' emprestado com sucesso para " << nome << endl;
+                veclivro[i].emprestimo++;
+                cout << "Livro '" << veclivro[i].idlivro << "' emprestado com sucesso para " << nome << endl;
             }
             else
             {
