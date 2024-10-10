@@ -150,7 +150,7 @@ void EmprestimoLivro(struct Livro veclivro[], int qtd)
                 strcpy(veclivro[i].nomeexemplares[veclivro[i].emprestimo], nome);
                 veclivro[i].quantidade--;
                 veclivro[i].emprestimo++;
-                cout << "Livro '" << veclivro[i].idlivro << "' emprestado com sucesso para " << nome << endl;
+                cout << "Livro '" << veclivro[i].titulo << "' emprestado com sucesso para " << nome << endl;
             }
             else
             {
@@ -166,18 +166,18 @@ void EmprestimoLivro(struct Livro veclivro[], int qtd)
 void DevolucaoLivro(struct Livro veclivro[], int qtd)
 {
     char nome[100];
-    char titulodevol[100];
+    int iddevol;
 
     cout << "Digite seu nome: ";
     cin.ignore();
     cin.getline(nome, 100);
 
-    cout << "Digite o título do livro que deseja devolver: ";
-    cin.getline(titulodevol, 100);
+    cout << "Digite o id do livro que deseja devolver: ";
+    cin >> iddevol;
 
     for (int i = 0; i < qtd; i++)
     {
-        if (strcmp(veclivro[i].titulo, titulodevol) == 0)
+        if (veclivro[i].idlivro == iddevol)
         {
             for (int j = 0; j < 10; j++)
             {
