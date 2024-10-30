@@ -1,11 +1,3 @@
-/*
-Integrantes do grupo:
-1. EDUARDA LUIZA PINHEIRO NEPOMUCENO 
-2. GEOVANA DA SILVA BARBOSA - 24015889
-3. MARIANA COSTA GONÇALVES DA SILVA - 24018699
-4. SOFIA DE ABREU GUIMARÃES - 24013553
-*/
-
 #include <iostream>
 #include <cstring>
 #include <limits>
